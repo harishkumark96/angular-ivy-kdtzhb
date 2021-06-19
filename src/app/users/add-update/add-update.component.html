@@ -1,0 +1,72 @@
+<h4 *ngIf="isAddMode">Add Employee</h4>
+<h4 *ngIf="!isAddMode">Edit Employee Details</h4>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group">
+      <label>FullName:</label>
+      <input type="text" formControlName="fullName"  class="form-control" >
+      <span class="error" *ngIf="!form.controls['fullName'].valid && form.controls['fullName'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Salary:</label>
+      <input type="number" formControlName="salary" class="form-control">
+      <span class="error" *ngIf="!form.controls['salary'].valid && form.controls['salary'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Email:</label>
+      <input type="email" formControlName="email" class="form-control">
+      <span class="error" *ngIf="!form.controls['email'].valid && form.controls['email'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Phone:</label>
+      <input type="number" formControlName="phone"  class="form-control">
+      <span class="error" *ngIf="!form.controls['phone'].valid && form.controls['phone'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Reporting-Manager:</label>
+      <input type="text" formControlName="report"  class="form-control">
+      <span class="error" *ngIf="!form.controls['report'].valid && form.controls['report'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Designation:</label>
+      <select formControlName="designation" class="form-control">
+                <option value="CEO">CEO</option>
+                <option value="Manager">Manager</option>
+                <option value="softwareDeveloper">softwareDeveloper</option> 
+                <option value="SoftwareTester">SoftwareTester</option>
+                <option value="Admin">Admin</option>
+            </select>
+      <span class="error" *ngIf="!form.controls['designation'].valid && form.controls['designation'].touched">
+
+             </span>
+    </div>
+    <div class="form-group">
+      <label>Qualification:</label>
+      <select formControlName="qualification"  class="form-control">
+                <option value="B.E">B.E</option>
+                <option value="M.E">M.E</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+                <option value="BCA">BCA</option>
+            </select>
+      <span class="error" *ngIf="!form.controls['qualification'].valid && form.controls['qualification'].touched">
+
+             </span>
+    </div>
+  </div>
+
+  <button [disabled]="!form.valid">Save</button>
+
+  <a (click)="formReset()" class="btn btn-link">reset</a>
+
+</form>

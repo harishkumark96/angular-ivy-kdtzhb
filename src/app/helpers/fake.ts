@@ -7,8 +7,8 @@ import {
   HttpInterceptor,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { delay, materialize, dematerialize, mergeMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 const usersKey = 'empReg';
 
@@ -20,9 +20,9 @@ let users = JSON.parse(localStorage.getItem(usersKey)) || [
     email: 'harishkumark05@gmail.com',
     phone: 7402231685,
     salary: 1,
-    report: 'nandha',
-    designation: 'ceo',
-    qualification: 'BE'
+    report: 'VeeraBaskar',
+    designation: 'softwareDeveloper',
+    qualification: 'B.E'
   }
 ];
 
@@ -32,17 +32,8 @@ export class fakeInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // throw new Error('Method not implemented.');
     const { url, method, headers, body } = req;
-    // wrap in delayed observable to simulate server api call
-    // return of(null)
-    //     .pipe(mergeMap(handleRoute))
-    //     .pipe(materialize()) // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
-    //     .pipe(delay(500))
-    //     .pipe(dematerialize());
-
     return handleRoute();
-
     function handleRoute() {
       switch (true) {
         case url.endsWith('/users') && method === 'GET':
@@ -56,7 +47,6 @@ export class fakeInterceptor implements HttpInterceptor {
         case url.match(/\/users\/\d+$/) && method === 'DELETE':
           return deleteUser();
         default:
-          // pass through any requests not handled above
           return next.handle(req);
       }
     }
@@ -71,7 +61,6 @@ export class fakeInterceptor implements HttpInterceptor {
       console.log(body);
       const user = body;
       user.id = newUserId();
-      // delete user.confirmPassword;
       users.push(user);
       localStorage.setItem(usersKey, JSON.stringify(users));
 
@@ -80,7 +69,6 @@ export class fakeInterceptor implements HttpInterceptor {
     function updateUser() {
       let params = body;
       let user = users.find(x => x.id === idFromUrl());
-      // update and save user
       Object.assign(user, params);
       localStorage.setItem(usersKey, JSON.stringify(users));
 
@@ -94,7 +82,7 @@ export class fakeInterceptor implements HttpInterceptor {
 
     // helpers
     function ok(body?) {
-      return of(new HttpResponse({ status: 200, body })).pipe(delay(500)); // delay observable to simulate server api call
+      return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
     function basicDetails(user) {
       const {
